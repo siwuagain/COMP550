@@ -1,3 +1,7 @@
+from utils import logger
+
+logger = logger.Logger()
+
 def english_preprocess(sentence):
     '''
     Lowercasing
@@ -14,6 +18,9 @@ def french_preprocess(sentence):
     Tokenization
     '''
     pass
+
+
+
 
 '''
 USING THE MODEL
