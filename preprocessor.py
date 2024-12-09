@@ -1,4 +1,5 @@
 from nltk.tokenize import word_tokenize
+import unidecode
 
 import string
 
@@ -18,8 +19,12 @@ class PreProcessor:
   
   #lowercase
   def to_lowercase(self, iter) -> list[str]:
-    return [word.lower() for word in iter if isinstance(word, str)]
+    return [word.lower() for word in iter]
   
+  #accent
+  def rmv_diacritic(self, iter) -> list[str]:
+    return [unidecode.unidecode(word) for word in iter]
+
   #tokenize
   def tokenize(self, iter) -> list[str]:
     return word_tokenize(iter)
