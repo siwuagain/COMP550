@@ -116,21 +116,6 @@ Donc, la frégate armée pour une campagne lointaine et pourvue de formidables e
 
 L’émotion causée par cette nouvelle fut extrême. On n’accorda pas vingt-quatre heures de répit au commandant Farragut. Ses vivres étaient embarqués. Ses soutes regorgeaient de charbon. Pas un homme ne manquait à son rôle d’équipage. Il n’avait qu’à allumer ses fourneaux, à chauffer, à démarrer ! On ne lui eût pas pardonné une demi-journée de retard ! D’ailleurs, le commandant Farragut ne demandait qu’à partir.
 
-Trois heures avant que l’Abraham-Lincoln ne quittât la pier de Brooklyn, je reçus une lettre libellée en ces termes :
-
-« Monsieur Aronnax, professeur au Muséum de Paris,
-
-        Fifth Avenue hotel.
-
-New York.
-
-Monsieur,
-
-Si vous voulez vous joindre à l’expédition de l’Abraham-Lincoln, le gouvernement de l’Union verra avec plaisir que la France soit représentée par vous dans cette entreprise. Le commandant Farragut tient une cabine à votre disposition.
-Très-cordialement, votre
-J.-B. Hobson,
-Secrétaire de la marine. »
-
 Trois secondes avant l’arrivée de la lettre de J.-B. Hobson, je ne songeais pas plus à poursuivre la Licorne qu’à tenter le passage du Nord-Ouest. Trois secondes après avoir lu la lettre de l’honorable secrétaire de la marine, je comprenais enfin que ma véritable vocation, l’unique but de ma vie, était de chasser ce monstre inquiétant et d’en purger le monde.
 
 Cependant, je revenais d’un pénible voyage, fatigué, avide de repos. Je n’aspirais plus qu’à revoir mon pays, mes amis, mon petit logement du Jardin des Plantes, mes chères et précieuses collections ! Mais rien ne put me retenir. J’oubliai tout, fatigues, amis, collections, et j’acceptai sans plus de réflexions l’offre du gouvernement américain.
@@ -331,8 +316,7 @@ Le harponneur me regarda pendant quelques instants avant de répondre, frappa de
 
 — Diable ! fit Ned.
 
-— Eh bien, mon digne harponneur, si des vertébrés, longs de plusieurs centaines de mètres et gros à proportion, se maintiennent à de pareilles
-profondeurs, eux dont la surface est représentée par des millions de centimètres carrés, c’est par milliards de kilogrammes qu’il faut estimer la poussée qu’ils subissent. Calculez alors quelle doit être la résistance de leur charpente osseuse et la puissance de leur organisme pour résister à de telles pressions !
+— Eh bien, mon digne harponneur, si des vertébrés, longs de plusieurs centaines de mètres et gros à proportion, se maintiennent à de pareilles profondeurs, eux dont la surface est représentée par des millions de centimètres carrés, c’est par milliards de kilogrammes qu’il faut estimer la poussée qu’ils subissent. Calculez alors quelle doit être la résistance de leur charpente osseuse et la puissance de leur organisme pour résister à de telles pressions !
 
 — Il faut, répondit Ned Land, qu’ils soient fabriqués en plaques de tôle de huit pouces, comme les frégates cuirassées.
 
@@ -623,8 +607,7 @@ La chasse recommença, et le commandant Farragut se penchant vers moi, me dit :
 
 — Oui, répondis-je, et vous aurez raison ! »
 
-On pouvait espérer que l’animal s’épuiserait, et qu’il ne serait pas
-indifférent à la fatigue comme une machine à vapeur. Mais il n’en fut rien. Les heures s’écoulèrent, sans qu’il donnât aucun signe d’épuisement.
+On pouvait espérer que l’animal s’épuiserait, et qu’il ne serait pas indifférent à la fatigue comme une machine à vapeur. Mais il n’en fut rien. Les heures s’écoulèrent, sans qu’il donnât aucun signe d’épuisement.
 
 Cependant, il faut dire à la louange de l’Abraham-Lincoln qu’il lutta avec une infatigable ténacité. Je n’estime pas à moins de cinq cents kilomètres la distance qu’il parcourut pendant cette malencontreuse journée du 6 novembre ! Mais la nuit vint et enveloppa de ses ombres le houleux océan.
 
@@ -814,8 +797,7 @@ Quant à l’espoir d’être sauvé par le commandant Farragut, il fallait y re
 
 Vers quatre heures du matin, la rapidité de l’appareil s’accrut. Nous résistions difficilement à ce vertigineux entraînement, lorsque les lames nous battaient de plein fouet. Heureusement, Ned rencontra sous sa main un large organeau fixé à la partie supérieure du dos de tôle, et nous parvînmes à nous y accrocher solidement.
 
-Enfin cette longue nuit s’écoula. Mon souvenir incomplet ne permet pas
-d’en retracer toutes les impressions. Un seul détail me revient à l’esprit. Pendant certaines accalmies de la mer et du vent, je crus entendre plusieurs fois des sons vagues, une sorte d’harmonie fugitive produite par des accords lointains. Quel était donc le mystère de cette navigation sous-marine dont le monde entier cherchait vainement l’explication ? Quels êtres vivaient dans cet étrange bateau ? Quel agent mécanique lui permettait de se déplacer avec une si prodigieuse vitesse ?
+Enfin cette longue nuit s’écoula. Mon souvenir incomplet ne permet pas d’en retracer toutes les impressions. Un seul détail me revient à l’esprit. Pendant certaines accalmies de la mer et du vent, je crus entendre plusieurs fois des sons vagues, une sorte d’harmonie fugitive produite par des accords lointains. Quel était donc le mystère de cette navigation sous-marine dont le monde entier cherchait vainement l’explication ? Quels êtres vivaient dans cet étrange bateau ? Quel agent mécanique lui permettait de se déplacer avec une si prodigieuse vitesse ?
 
 Le jour parut. Les brumes du matin nous enveloppaient, mais elles ne tardèrent pas à se déchirer. J’allais procéder à un examen attentif de la coque qui formait à sa partie supérieure une sorte de plate-forme horizontale, quand je la sentis s’enfoncer peu à peu.
 
@@ -943,7 +925,7 @@ Pendant ce temps, le stewart, — muet, sourd peut-être, — avait disposé la 
 
 — Nous verrons bien ! » dit Conseil.
 
-Les plats, recouverts de leur cloche d’argent, furent symétriquement posés sur la nappe, et nous prîmes place à table. Décidément, nous avions affaire à des gens civilisés, et sans la lumière électrique qui nous inondait, je me serais cru dans la salle à manger de l’hôtel Adelphi, à Liverpool, ou du Grand-Hôtel, à Paris. Je dois dire toutefois que le pain et le vin manquaient totalement. L’eau était fraîche et limpide, mais c’était de l’eau, — ce qui ne fut pas du goût de Ned Land. Parmi les mets qui nous furent servis, je reconnus divers poissons délicatement apprêtés ; mais, sur certains plats, excellents d’ailleurs, je ne pus me prononcer, et je n’aurais même su dire à quel règne, végétal ou animal, leur contenu appartenait. Quant au service de table, il était élégant et d’un goût parfait. Chaque ustensile, cuiller, fourchette, couteau, assiette, portait une lettre entourée d’une devise en exergue, et dont voici le fac-similé exact : MOBILIS IN MOBILI N
+Les plats, recouverts de leur cloche d’argent, furent symétriquement posés sur la nappe, et nous prîmes place à table. Décidément, nous avions affaire à des gens civilisés, et sans la lumière électrique qui nous inondait, je me serais cru dans la salle à manger de l’hôtel Adelphi, à Liverpool, ou du Grand-Hôtel, à Paris. Je dois dire toutefois que le pain et le vin manquaient totalement. L’eau était fraîche et limpide, mais c’était de l’eau, — ce qui ne fut pas du goût de Ned Land. Parmi les mets qui nous furent servis, je reconnus divers poissons délicatement apprêtés ; mais, sur certains plats, excellents d’ailleurs, je ne pus me prononcer, et je n’aurais même su dire à quel règne, végétal ou animal, leur contenu appartenait. Quant au service de table, il était élégant et d’un goût parfait. Chaque ustensile, cuiller, fourchette, couteau, assiette, portait une lettre entourée d’une devise en exergue, et dont voici le fac-similé exact.
 
 Mobile dans l’élément mobile ! Cette devise s’appliquait justement à cet appareil sous-marin, à la condition de traduire la préposition in par dans et non par sur. La lettre N formait sans doute l’initiale du nom de l’énigmatique personnage qui commandait au fond des mers ! Ned et Conseil ne faisaient pas tant de réflexions. Ils dévoraient, et je ne tardai pas à les imiter. J’étais, d’ailleurs, rassuré sur notre sort, et il me paraissait évident que nos hôtes ne voulaient pas nous laisser mourir d’inanition.
 
@@ -1839,16 +1821,6 @@ J’avais pris mon parti de ne plus le voir, quand, le 16 novembre, rentré dans
 
 Je l’ouvris d’une main impatiente. Il était écrit d’une écriture franche et nette, mais un peu gothique et qui rappelait les types allemands.
 
-Ce billet était libellé en ces termes :
-
-            Monsieur le professeur Aronnax, à bord du Nautilus.
-
-« 16 novembre 1867.
-
-Le capitaine Nemo invite monsieur le professeur Aronnax à une partie de chasse qui aura lieu demain matin dans ses forêts de l’île Crespo. Il espère que rien n’empêchera monsieur le professeur d’y assister, et il verra avec plaisir que ses compagnons se joignent à lui.
-Le commandant du Nautilus,
-Capitaine Nemo. »
-
 « Une chasse ! s’écria Ned.
 
 — Et dans ses forêts de l’île Crespo ! ajouta Conseil.
@@ -2073,9 +2045,7 @@ Combien de temps restai-je ainsi plongé dans cet assoupissement, je ne pus l’
 
 Cette rencontre me fit penser que d’autres animaux, plus redoutables, devaient hanter ces fonds obscurs, et que mon scaphandre ne me protégerait pas contre leurs attaques. Je n’y avais pas songé jusqu’alors, et je résolus de me tenir sur mes gardes. Je supposais, d’ailleurs, que cette halte marquait le terme de notre promenade ; mais je me trompais, et, au lieu de retourner au Nautilus, le capitaine Nemo continua son audacieuse excursion.
 
-
 Le sol se déprimait toujours, et sa pente, s’accusant davantage, nous conduisit à de plus grandes profondeurs. Il devait être à peu près trois heures, quand nous atteignîmes une étroite vallée, creusée entre de hautes parois à pic, et située par cent cinquante mètres de fond. Grâce à la perfection de nos appareils, nous dépassions ainsi de quatre-vingt-dix mètres la limite que la nature semblait avoir imposée jusqu’ici aux excursions sous-marines de l’homme.
-
 
 Je dis cent cinquante mètres, bien qu’aucun instrument ne me permît d’évaluer cette distance. Mais je savais que, même dans les mers les plus limpides, les rayons solaires ne pouvaient pénétrer plus avant. Or, précisément, l’obscurité devint profonde. Aucun objet n’était visible à dix pas. Je marchais donc en tâtonnant, quand je vis briller subitement une lumière blanche assez vive. Le capitaine Nemo venait de mettre son appareil électrique en activité. Son compagnon l’imita. Conseil et moi nous suivîmes leur exemple. J’établis, en tournant une vis, la communication entre la bobine et le serpentin de verre, et la mer, éclairée par nos quatre lanternes, s’illumina dans un rayon de vingt-cinq mètres.
 
@@ -2210,9 +2180,6 @@ En pleine lumière électrique, une énorme masse noirâtre, immobile, se tenait
 Ned Land ne se trompait pas. Nous étions en présence d’un navire, dont les haubans coupés pendaient encore à leurs cadènes. Sa coque paraissait être en bon état, et son naufrage datait au plus de quelques heures. Trois tronçons de mâts, rasés à deux pieds au-dessus du pont, indiquaient que ce navire engagé avait dû sacrifier sa mâture. Mais, couché sur le flanc, il s’était rempli, et il donnait encore la bande à bâbord. Triste spectacle que celui de cette carcasse perdue sous les flots, mais plus triste encore la vue de son pont où quelques cadavres, amarrés par des cordes, gisaient encore ! J’en comptai quatre, — quatre hommes, dont l’un se tenait debout, au gouvernail, — puis une femme, à demi-sortie par la claire-voie de la dunette, et tenant un enfant dans ses bras. Cette femme était jeune. Je pus reconnaître, vivement éclairés par les feux du Nautilus, ses traits que l’eau n’avait pas encore décomposés. Dans un suprême effort, elle avait élevé au-dessus de sa tête son enfant, pauvre petit être dont les bras enlaçaient le cou de sa mère ! L’attitude des quatre marins me parut effrayante, tordus qu’ils étaient dans des mouvements convulsifs, et faisant un dernier effort pour s’arracher des cordes qui les liaient au navire. Seul, plus calme, la face nette et grave, ses cheveux grisonnants collés à son front, la main crispée à la roue du gouvernail, le timonier semblait encore conduire son trois-mâts naufragé à travers les profondeurs de l’Océan !
 
 Quelle scène ! Nous étions muets, le cœur palpitant, devant ce naufrage pris sur le fait, et, pour ainsi dire, photographié à sa dernière minute ! Et je voyais déjà s’avancer, l’œil en feu, d’énormes squales, attirés par cet appât de chair humaine !
-
-Cependant le Nautilus, évoluant, tourna autour du navire submergé, et, un instant, je pus lire sur son tableau d’arrière :
-Florida, Sunderland.
 
 Ce terrible spectacle inaugurait la série des catastrophes maritimes, que le Nautilus devait renconter sur sa route. Depuis qu’il suivait des mers plus fréquentées, nous apercevions souvent des coques naufragées qui achevaient de pourrir entre deux eaux, et, plus profondément, des canons, des boulets, des ancres, des chaînes, et mille autres objets de fer, que la rouille dévorait.
 
@@ -3749,8 +3716,6 @@ Le squale, au moment où il allait happer le malheureux pêcheur, aperçut son n
 
 Je vois encore la pose du capitaine Nemo. Replié sur lui-même, il attendait avec un admirable sang-froid le formidable squale, et lorsque celui-ci se précipita sur lui, le capitaine, se jetant de côté avec une prestesse prodigieuse, évita le choc et lui enfonça son poignard dans le ventre. Mais, tout n’était pas dit. Un combat terrible s’engagea.
 
-
-
 Le requin avait rugi, pour ainsi dire. Le sang sortait à flots de ses blessures. La mer se teignit de rouge, et, à travers ce liquide opaque, je ne vis plus rien.
 
 Plus rien, jusqu’au moment où, dans une éclaircie, j’aperçus l’audacieux capitaine, cramponné à l’une des nageoires de l’animal, luttant corps à corps avec le monstre, labourant de coups de poignard le ventre de son ennemi, sans pouvoir toutefois porter le coup définitif, c’est-à-dire l’atteindre en plein cœur. Le squale, se débattant, agitait la masse des eaux avec furie, et leur remous menaçait de me renverser.
@@ -3906,13 +3871,6 @@ Le capitaine Nemo ne me répondit pas. Après quelques minutes de silence : « V
 — Il existe, monsieur Aronnax, de nombreuses explications à ce sujet. Voulez-vous connaître l’opinion d’un chroniqueur du XIVe siècle ?
 
 — Volontiers.
-
-— Ce fantaisiste prétend que son nom lui fut donné après le passage des Israélites, lorsque le Pharaon eût péri dans les flots qui se refermèrent à la voix de Moïse :
-
-                            En signe de cette merveille,
-                            Devint la mer rouge et vermeille.
-                            Non puis ne surent la nommer
-                            Autrement que la rouge mer.
 
 — Explication de poète, capitaine Nemo, répondis-je, mais je ne saurais m’en contenter. Je vous demanderai donc votre opinion personnelle.
 
@@ -4324,11 +4282,6 @@ Il fallait évidemment conclure, et les faux-fuyants me répugnaient.
 
 Cette conversation, qui devait avoir plus tard de si graves conséquences, se termina ainsi. Je dois dire maintenant que les faits semblèrent confirmer mes prévisions au grand désespoir du Canadien. Le capitaine Nemo se défiait-il de nous dans ces mers fréquentées, ou voulait-il seulement se dérober à la vue des nombreux navires de toutes nations qui sillonnent la Méditerranée ? Je l’ignore, mais il se maintint le plus souvent entre deux eaux et au large des côtes. Ou le Nautilus émergeait, ne laissant passer que la cage du timonier, ou il s’en allait à de grandes profondeurs, car entre l’archipel grec et l’Asie Mineure nous ne trouvions pas le fond par deux mille mètres.
 
-Aussi, je n’eus connaissance de l’île de Carpathos, l’une des Sporades, que par ce vers de Virgile que le capitaine Nemo me cita, en posant son doigt sur un point du planisphère :
-
-                    Est in Carpathio Neptuni gurgite vates
-                    Coeruleus Proteus…
-
 C’était, en effet, l’antique séjour de Protée, le vieux pasteur des troupeaux de Neptune, maintenant l’île de Scarpanto, située entre Rhodes et la Crète. Je n’en vis que les soubassements granitiques à travers la vitre du salon.
 
 Le lendemain, 14 février, je résolus d’employer quelques heures à étudier les poissons de l’Archipel ; mais par un motif quelconque, les panneaux demeurèrent hermétiquement fermés. En relevant la direction du Nautilus, je remarquai qu’il marchait vers Candie, l’ancienne île de Crète. Au moment où je m’étais embarqué sur l’Abraham-Lincoln, cette île venait de s’insurger tout entière contre le despotisme turc. Mais ce qu’était devenue cette insurrection depuis cette époque, je l’ignorais absolument, et ce n’était pas le capitaine Nemo, privé de toute communication avec la terre, qui aurait pu me l’apprendre.
@@ -4398,6 +4351,7 @@ Je continuai mon travail, mais la température s’éleva au point de devenir in
 « Est-ce que le feu serait à bord ? » me demandai-je.
 
 J’allais quitter le salon, quand le capitaine Nemo entra. Il s’approcha du thermomètre, le consulta, et se retournant vers moi :
+
 « Quarante-deux degrés, dit-il.
 
 — Je m’en aperçois, capitaine, répondis-je, et pour peu que cette chaleur augmente, nous ne pourrons la supporter.
@@ -4415,6 +4369,7 @@ J’allais quitter le salon, quand le capitaine Nemo entra. Il s’approcha du t
 — Est-il possible ? m’écriai-je.
 
 — Regardez. »
+
 Les panneaux s’ouvrirent, et je vis la mer entièrement blanche autour du Nautilus. Une fumée de vapeurs sulfureuses se déroulait au milieu des flots qui bouillonnaient comme l’eau d’une chaudière. J’appuyai ma main sur une des vitres, mais la chaleur était telle que je dus la retirer.
 
 « Où sommes-nous ? demandai-je.
@@ -4498,6 +4453,7 @@ Je montrai à Conseil, sur la carte de la Méditerranée, l’emplacement qu’o
 — Non, que je sache.
 
 — Eh bien, mon ami, la terre sera un jour ce cadavre refroidi. Elle deviendra inhabitable et sera inhabitée comme la lune, qui depuis longtemps a perdu sa chaleur vitale.
+
 — Dans combien de siècles ? demanda Conseil.
 
 — Dans quelques centaines de mille ans, mon garçon.
@@ -4796,9 +4752,6 @@ J’ai dit que le cratère sous-marin rejetait des laves, mais non des flammes. 
 En effet, là, sous mes yeux, ruinée, abîmée, jetée bas, apparaissait une ville détruite, ses toits effondrés, ses temples abattus, ses arcs disloqués, ses colonnes gisant à terre, où l’on sentait encore les solides proportions d’une sorte d’architecture toscane ; plus loin, quelques restes d’un gigantesque aqueduc ; ici l’exhaussement empâté d’une acropole, avec les formes flottantes d’un Parthénon ; là, des vestiges de quai, comme si quelque antique port eût abrité jadis sur les bords d’un océan disparu les vaisseaux marchands et les trirèmes de guerre ; plus loin encore, de longues lignes de murailles écroulées, de larges rues désertes, toute une Pompéi enfouie sous les eaux, que le capitaine Nemo ressuscitait à mes regards !
 
 Où étais-je ? Où étais-je ? Je voulais le savoir à tout prix, je voulais parler, je voulais arracher la sphère de cuivre qui emprisonnait ma tête.
-
-Mais le capitaine Nemo vint à moi et m’arrêta d’un geste. Puis, ramassant un morceau de pierre crayeuse, il s’avança vers un roc de basalte noire et traça ce seul mot :
-ATLANTIDE.
 
 Quel éclair traversa mon esprit ! L’Atlantide, l’ancienne Méropide de Théopompe, l’Atlantide de Platon, ce continent nié par Origène, Porphyre, Jamblique, D’Anville, Malte-Brun, Humboldt, qui mettaient sa disparition au compte des récits légendaires, admis par Possidonius, Pline, Ammien-Marcellin, Tertullien, Engel, Sherer, Tournefort, Buffon, d’Avezac, je l’avais là sous les yeux, portant encore les irrécusables témoignages de sa catastrophe ! C’était donc cette région engloutie qui existait en dehors de l’Europe, de l’Asie, de la Libye, au-delà des colonnes d’Hercule, où vivait ce peuple puissant des Atlantes, contre lequel se firent les premières guerres de l’ancienne Grèce !
 
