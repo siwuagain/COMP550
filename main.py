@@ -17,6 +17,9 @@ logger = logger.Logger()
 
 
 def extract_sentence_from_xml(file_path):
+    '''
+    Getting the sentences from the xml files were the best move because sentences from the text files don't exactly correlate to each other (due to different spacing, punctuation, etc)
+    '''
     tree = etree.parse(file_path)
     root = tree.getroot()
     words = []
@@ -53,6 +56,9 @@ def french_preprocess(sentence):
 
 
 def load_english_sentences():
+    '''
+    loads all the sentences from the english passages
+    '''
     sentences = []
     file_path = "potential_corpus/corpus/passage"
     file_end = ".xml"
@@ -75,6 +81,9 @@ def load_english_sentences():
 
 
 def load_french_sentences():
+    '''
+    loads all the sentences from the french passages
+    '''
     sentences = []
     file_path = "potential_corpus/corpus/passage"
     file_end = ".xml"
@@ -92,6 +101,9 @@ def load_french_sentences():
 
 
 def decode_text(sentence):
+    '''
+    The text written in the xml is encoded so this function changes its code into actual english/french characters
+    '''
     unicode_changes = {
     "2019": "’",  # Right single quotation mark
     "00e9": "é",  # Latin small letter e with acute
@@ -112,6 +124,9 @@ def decode_text(sentence):
 
 
 def get_embeddings(sentences, tokenizer, model):
+    '''
+    Gets the embeddings of the sentences
+    '''
     embeddings = []
     for sentence in sentences:
         encoded_input = tokenizer(sentence, return_tensors="pt")
@@ -121,6 +136,9 @@ def get_embeddings(sentences, tokenizer, model):
 
 
 def get_parse_tree_stanza(sentences, enlgish):
+    '''
+    Uses the Stanza library to get the parse tree and its corresponding matrix (not from stanza, computed by hand so kinda iffy) for each sentence (english and french)
+    '''
     trees = []
     matrices = []
 
@@ -154,6 +172,9 @@ def get_parse_tree_stanza(sentences, enlgish):
 
 
 def save_embeddings_to_hdf5(embeddings, output_file):
+    '''
+    Not really used, but just saves all the embeddings into a file
+    '''
     with h5py.File(output_file, "w") as f:
         for idx, embedding in enumerate(embeddings):
             if not isinstance(embedding, np.ndarray):
@@ -163,6 +184,9 @@ def save_embeddings_to_hdf5(embeddings, output_file):
 
 def main():
     #Import sentences (and make sure each list element is its own sentence)
+    '''
+    All this is literally just to ensure each sentence within each list index maps from english to french
+    '''
     english_sentences = load_english_sentences()
     french_sentences = load_french_sentences()
     parallel_english_sentences = []
@@ -199,8 +223,11 @@ def main():
     print(len(cleaned_en_sentences))
     print(len(cleaned_fr_sentences))
 
-    #Sentence preprocessing
 
+    #Sentence preprocessing
+    '''
+    Do more preprocessing or naw?
+    '''
 
     #Generate parse trees for the sentences
     stanza.download("en")
@@ -217,12 +244,12 @@ def main():
             "fr_sentence_parse_trees": fr_sentence_parse_trees,
             "fr_sentence_matrix": fr_sentence_matrix
         }, f)
-
+    '''
     print(en_sentence_matrix[0])
     print(fr_sentence_matrix[0])
     print(len(en_sentence_parse_trees))
     print(len(fr_sentence_parse_trees))
-    '''
+
 
     #Embed sentences
     tokenizer = AutoTokenizer.from_pretrained("bert-base-multilingual-cased")
@@ -236,7 +263,14 @@ def main():
     save_embeddings_to_hdf5(french_embeddings, "french_embeddings.h5")
     '''
 
+    #Split embeddings into training data, development data, and test data
+
     #Train structural probe
+    '''
+    Find a way to compare the probe's output to the Stanza parse trees
+    '''
+
+    #Evaluate on test data
 
 
 main()
