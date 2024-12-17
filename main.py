@@ -183,7 +183,11 @@ def save_embeddings_to_hdf5(embeddings, output_file):
             f.create_dataset(str(idx), data=embedding)
 
 
-def visualize_stanza(tokens, root_id):
+def visualize_stanza(document, root_id):
+    tokens = []
+    for sentence in document.sentences:
+        tokens.extend(sentence.words)
+        
     root = next(token for token in tokens if token['id'] == root_id)
     children = [token for token in tokens if token['head_id'] == root_id]
     return Tree(f"{root['text']} ({root['deprel']})", [visualize_stanza(tokens, child['id']) for child in children])
@@ -241,8 +245,8 @@ def main():
     stanza.download("fr")
     en_sentence_parse_trees, en_sentence_matrix = get_parse_tree_stanza(cleaned_en_sentences, True)
     fr_sentence_parse_trees, fr_sentence_matrix = get_parse_tree_stanza(cleaned_fr_sentences, False)
-    #tree = visualize_stanza(en_sentence_parse_trees[0], 5)
-    #tree.pretty_print()
+    tree = visualize_stanza(en_sentence_parse_trees[0], 5)
+    tree.pretty_print()
     
     #print(print(*[f'id: {word.id}\tword: {word.text}\thead id: {word.head}\thead: {sent.words[word.head-1].text if word.head > 0 else "root"}\tdeprel: {word.deprel}' for sent in en_sentence_parse_trees[0].sentences for word in sent.words], sep='\n'))
     #print(print(*[f'id: {word.id}\tword: {word.text}\thead id: {word.head}\thead: {sent.words[word.head-1].text if word.head > 0 else "root"}\tdeprel: {word.deprel}' for sent in fr_sentence_parse_trees[0].sentences for word in sent.words], sep='\n'))
