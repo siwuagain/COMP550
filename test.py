@@ -98,7 +98,7 @@ def get_sentence_embeddings(sentence, corresponding_word_roles, tokenizer, model
 
     # Validate word_embeddings length, if the word length and embeddings are not the same, don't include it in the output
     if len(word_embeddings) != len(words):
-        print(words)
+        #print(words)
         return []
 
     # Map embeddings to words and roles
@@ -243,7 +243,7 @@ def analyze_embedding_layers(layer, english_data, french_data):
     X_train, X_test, y_train, y_test = train_test_split(X_english, y_english, test_size=0.2, random_state=42)
 
     # Use a Logistic Regression model
-    clf = LogisticRegression(max_iter=2000, solver="lbfgs", multi_class="multinomial")
+    clf = LogisticRegression(max_iter=2000, solver="lbfgs", multi_class="multinomial", class_weight='balanced')
     clf.fit(X_train, y_train)
 
     # Evaluate on English test data
@@ -273,7 +273,7 @@ def analyze_embedding_layers(layer, english_data, french_data):
     print(accuracy_score(y_test, y_pred))
 
     y_pred_english = clf.predict(X_english)
-    print("Cross-Lingual Evaluation (Train on English, Test on French):")
+    print("Cross-Lingual Evaluation (Train on French, Test on English):")
     print(accuracy_score(y_english, y_pred_english))
     '''
     y_pred_french = clf.predict(X_french)
@@ -320,7 +320,6 @@ def main():
   # Get mBERT word level embeddings for each layer
   for i in range(1, 13):
       analyze_embedding_layers(i, ordered_words_and_roles_en, ordered_words_and_roles_fr)
-
 
 
 main()
