@@ -1,105 +1,15 @@
-from utils import logger
-import preprocessor as pp
-from transformers import AutoTokenizer, AutoModel
-import numpy as np
-import stanza
-import networkx as nx
-import h5py
-import nltk
-from nltk.tokenize import sent_tokenize
+#Evaluate multilingual pretrained model using UCCA annoations for semantic role probing
+from lxml import etree
+import os
+from transformers import BertTokenizerFast, BertModel
 import torch
 import re
-from lxml import etree
-import pickle
-from nltk.tree import Tree
-
-pp = pp.PreProcessor()
-logger = logger.Logger()
-
-
-def extract_sentence_from_xml(file_path):
-    '''
-    Getting the sentences from the xml files were the best move because sentences from the text files don't exactly correlate to each other (due to different spacing, punctuation, etc)
-    '''
-    tree = etree.parse(file_path)
-    root = tree.getroot()
-    words = []
-    nodes = root.xpath('.//node[@type="Word" or @type="Punctuation"]')
-    for node in nodes:
-        attributes = node.find("attributes")
-        if attributes is not None:
-            text = attributes.get("text")
-            if text:
-                words.append(text)
-    sentence = " ".join(words)
-    sentence = sentence.replace("...", "")
-    sentence = sentence.replace(". . .", "")
-    return sentence
-
-
-def english_preprocess(sentence):
-    '''
-    Lowercasing
-    Remove punctuation (not needed for mBERT but might need for XLM-R)
-    Tokenization
-    '''
-    pass
-
-
-def french_preprocess(sentence):
-    '''
-    Lowercasing
-    Removing accents
-    Remove punctuation (not needed for mBERT but might need for XLM-R)
-    Tokenization
-    '''
-    pass
-
-
-def load_english_sentences():
-    '''
-    loads all the sentences from the english passages
-    '''
-    sentences = []
-    file_path = "potential_corpus/corpus/passage"
-    file_end = ".xml"
-    for i in range(36, 63):
-        fp = file_path + str(i) + file_end
-        sentences.append(extract_sentence_from_xml(fp))
-    for i in range(286, 319):
-        fp = file_path + str(i) + file_end
-        sentences.append(extract_sentence_from_xml(fp))
-    for i in range(814, 847):
-        fp = file_path + str(i) + file_end
-        sentences.append(extract_sentence_from_xml(fp))
-    for i in range(880, 910):
-        fp = file_path + str(i) + file_end
-        sentences.append(extract_sentence_from_xml(fp))
-    for i in range(968, 999):
-        fp = file_path + str(i) + file_end
-        sentences.append(extract_sentence_from_xml(fp))
-    return sentences
-
-
-def load_french_sentences():
-    '''
-    loads all the sentences from the french passages
-    '''
-    sentences = []
-    file_path = "potential_corpus/corpus/passage"
-    file_end = ".xml"
-    for i in range(77, 104):
-        sentences.append(extract_sentence_from_xml(file_path + str(i) + file_end))
-    for i in range(416, 449):
-        sentences.append(extract_sentence_from_xml(file_path + str(i) + file_end))
-    for i in range(764, 797):
-        sentences.append(extract_sentence_from_xml(file_path + str(i) + file_end))
-    for i in range(848, 878):
-        sentences.append(extract_sentence_from_xml(file_path + str(i) + file_end))
-    for i in range(911, 942):
-        sentences.append(extract_sentence_from_xml(file_path + str(i) + file_end))
-    return sentences
-
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import classification_report
+from collections import defaultdict
+from sklearn.metrics import accuracy_score
 
 def decode_text(sentence):
     '''
@@ -124,186 +34,295 @@ def decode_text(sentence):
     return re.sub(unicode_pattern, replace_match, sentence)
 
 
-def get_embeddings(sentences, tokenizer, model):
+def get_sentence_from_xml(file_path):
+    tree = etree.parse(file_path)
+    root = tree.getroot()
+
+    # Extract terminal nodes
+    terminal_nodes = {}
+    words = []
+    for node in root.xpath('.//layer[@layerID="0"]//node[@type="Word" or @type="Punctuation"]'):
+        node_id = node.attrib["ID"]
+        text = node.find("attributes").attrib.get("text", "")
+        terminal_nodes[node_id] = text
+        words.append(text)
+    
+    new_sentence = decode_text(" ".join(words))
+
+    return new_sentence
+
+
+def get_sentence_embeddings(sentence, corresponding_word_roles, tokenizer, model, layer):
+    if isinstance(sentence, str):
+        words = sentence.split()
+    else:
+        words = sentence
+
+    # Tokenize
+    tokens = tokenizer(words, return_tensors="pt", is_split_into_words=True, padding=True, truncation=True)
+
+    # Get embeddings
+    with torch.no_grad():
+        outputs = model(**tokens, output_hidden_states=True)
+        hidden_states = outputs.hidden_states  # Tuple of all layer outputs
+
+    hidden_states = hidden_states[layer] # Specify the layer of the model that we want to get the embeddings from
+
+    # Align subwords to words and aggregate embeddings
+    word_embeddings = []
+    word_ids = tokens.word_ids()  # Maps subwords to word indices
+    current_word = None
+    current_embeddings = []
+
+    for i, word_id in enumerate(word_ids):
+        if word_id is None:
+            continue
+
+        if current_word is None:
+            current_word = word_id
+
+        if word_id != current_word:
+            # Aggregate subword embeddings for the current word
+            word_embedding = torch.mean(torch.stack(current_embeddings), dim=0)
+            word_embeddings.append(word_embedding)
+            current_embeddings = []
+            current_word = word_id
+
+        # Collect subword embeddings
+        current_embeddings.append(hidden_states[0, i])
+
+    # Handle the last word
+    if current_embeddings:
+        word_embedding = torch.mean(torch.stack(current_embeddings), dim=0)
+        word_embeddings.append(word_embedding)
+
+    # Validate word_embeddings length, if the word length and embeddings are not the same, don't include it in the output
+    if len(word_embeddings) != len(words):
+        #print(words)
+        return []
+
+    # Map embeddings to words and roles
+    result = []
+    for word_idx, (word, roles) in enumerate(zip(words, corresponding_word_roles)):
+        for role in roles:  # If a word has multiple roles
+            result.append({
+                "word_idx": word_idx,
+                "token": word,
+                "role": role,
+                "embedding": word_embeddings[word_idx].numpy()
+            })
+
+    return result
+
+
+def flatten_data(data):
     '''
-    Gets the embeddings of the sentences
+    Flatten a list of list of dictionaries into a list
     '''
-    embeddings = []
-    for sentence in sentences:
-        encoded_input = tokenizer(sentence, return_tensors="pt")
-        output = model(**encoded_input)
-        embeddings.append(output)
-    return embeddings
+    X = []
+    y = []
+    for sentence in data:
+        for word_data in sentence:
+            X.append(word_data["embedding"])
+            y.append(word_data["role"])
+    return np.array(X), y
 
 
-def get_parse_tree_stanza(sentences, enlgish):
+def map_roles_to_terminals(file_path):
+    tree = etree.parse(file_path)
+    root = tree.getroot()
+
+    # Map each node ID to its terminal nodes
+    node_to_terminals = {}
+    for node in root.xpath('.//layer[@layerID="1"]//node'):
+        node_id = node.attrib.get("ID")
+        terminal_edges = node.xpath('./edge[@type="Terminal"]')  # Direct children only
+        node_to_terminals[node_id] = [
+            edge.attrib.get("toID") for edge in terminal_edges
+        ]
+
+    # Map terminal node IDs to words
+    node_id_to_word = {}
+    for node_id, terminal_ids in node_to_terminals.items():
+        terminals = []
+        for terminal_id in terminal_ids:
+            terminal_node = root.xpath(
+                f'.//layer[@layerID="0"]//node[@ID="{terminal_id}"]'
+            )
+            if terminal_node:
+                terminal_node = terminal_node[0]
+                text = terminal_node.find("attributes").attrib.get("text", "")
+                position = terminal_node.find("attributes").attrib.get(
+                    "paragraph_position", ""
+                )
+                terminals.append((text, position))
+        node_id_to_word[node_id] = terminals
+
+    # Map roles to words
+    node_type_to_word = {}
+    for node_id, words in node_id_to_word.items():
+        edges = root.xpath(
+            f'.//layer[@layerID="1"]//node//edge[@toID="{node_id}"]'
+        ) 
+        for edge in edges:
+            edge_type = edge.attrib.get("type")
+            if edge_type not in node_type_to_word:
+                node_type_to_word[edge_type] = []
+            node_type_to_word[edge_type].extend(words)
+
+    for role in node_type_to_word:
+        node_type_to_word[role] = list(set(node_type_to_word[role]))
+
+    return node_type_to_word
+
+
+def create_ordered_list(data, sentence):
     '''
-    Uses the Stanza library to get the parse tree and its corresponding matrix (not from stanza, computed by hand so kinda iffy) for each sentence (english and french)
+    Create a dictionary which the keys are the words of the sentence IN ORDER and the values are the UCCA role(s) associated with each word
     '''
-    trees = []
-    matrices = []
-
-    nlp = stanza.Pipeline(lang='fr', processors='tokenize,mwt,pos,lemma,depparse')
-    if enlgish:
-        nlp = stanza.Pipeline(lang='en', processors='tokenize,mwt,pos,lemma,depparse')
-        
-    for sentence in sentences:
-            doc = nlp(sentence)
-            trees.append(doc)
-
-            for sent in doc.sentences:
-                num_tokens = len(sent.words)
-                graph = nx.Graph()
-                for word in sent.words:
-                    if word.head > 0:
-                        graph.add_edge(word.id - 1, word.head - 1)
-
-                distance_matrix = np.zeros((num_tokens, num_tokens), dtype=float)
-                shortest_paths = dict(nx.all_pairs_shortest_path_length(graph))
-                for i in range(num_tokens):
-                    for j in range(num_tokens):
-                        if i in shortest_paths and j in shortest_paths:
-                            distance_matrix[i, j] = shortest_paths[i][j]
-                        else:
-                            #this typically happens for PUNT word types
-                            distance_matrix[i, j] = float("inf")
-
-                matrices.append(distance_matrix)
-    return trees, matrices
+    word_roles = {}
+    split_sentence = sentence.split()
+    for i, word in enumerate(split_sentence):
+        roles = []
+        word_tuple = (word, str(i+1))
+        for role in data:
+            if word_tuple in data[role]:
+                roles.append(role)
+        word_roles[word_tuple] = roles
+    return word_roles
 
 
-def save_embeddings_to_hdf5(embeddings, output_file):
+def analyze_role_accuracy(y_true, y_pred):
     '''
-    Not really used, but just saves all the embeddings into a file
+    Returns the accuracy spit by the specific UCCA roles 
+    
+    NOT CURRENTLY PRINTED, BUT IF WE WANT IN-DEPTH ANALYSIS, WE CAN USE THIS
     '''
-    with h5py.File(output_file, "w") as f:
-        for idx, embedding in enumerate(embeddings):
-            if not isinstance(embedding, np.ndarray):
-                embedding = np.array(embedding, dtype=np.float32)
-            f.create_dataset(str(idx), data=embedding)
+    role_results = defaultdict(list)
+    for true, pred in zip(y_true, y_pred):
+        role_results[true].append(1 if true == pred else 0)
+
+    for role, results in role_results.items():
+        accuracy = sum(results) / len(results)
+        print(f"Role: {role}, Accuracy: {accuracy:.2f}")
 
 
-def visualize_stanza(tokens, root_id):
-    root = next(token for token in tokens if token['id'] == root_id)
-    children = [token for token in tokens if token['head_id'] == root_id]
-    return Tree(f"{root['text']} ({root['deprel']})", [visualize_stanza(tokens, child['id']) for child in children])
+def analyze_embedding_layers(layer, english_data, french_data):
+    '''
+    Run the analysis on each layer of mBERT (12 total)
+    '''
+    print("LAYER:", layer)
+    print("\n")
+    # Get mBERT word level embeddings
+    english_sentence_embeddings = []
+    french_sentence_embeddings = []
+    tokenizer = BertTokenizerFast.from_pretrained("bert-base-multilingual-cased")
+    model = BertModel.from_pretrained("bert-base-multilingual-cased")
+    for data in english_data:
+        sentence = []
+        roles_per_word = []
+        for word, position in data:
+            sentence.append(word)
+            roles_per_word.append(data[(word, position)])
+        english_sentence_embeddings.append(get_sentence_embeddings(sentence, roles_per_word, tokenizer, model, layer))
+    
+    for data in french_data:
+        sentence = []
+        roles_per_word = []
+        for word, position in data:
+            sentence.append(word)
+            roles_per_word.append(data[(word, position)])
+        french_sentence_embeddings.append(get_sentence_embeddings(sentence, roles_per_word, tokenizer, model, layer))
+
+    # Flatten the lists into emeddings mapped to the UCCA roles
+    X_english, y_english = flatten_data(english_sentence_embeddings)
+    X_french, y_french = flatten_data(french_sentence_embeddings)
+
+    # Train and test on English data
+    # Split English data into training and testing sets
+    X_train, X_test, y_train, y_test = train_test_split(X_english, y_english, test_size=0.2, random_state=42)
+
+    # Use a Logistic Regression model
+    clf = LogisticRegression(max_iter=2000, solver="lbfgs", multi_class="multinomial", class_weight='balanced')
+    clf.fit(X_train, y_train)
+
+    # Evaluate on English test data
+    y_pred = clf.predict(X_test)
+    print("Evaluation on English Test Data:")
+    print(accuracy_score(y_test, y_pred))
+
+    y_pred_french = clf.predict(X_french)
+    print("Cross-Lingual Evaluation (Train on English, Test on French):")
+    print(accuracy_score(y_french, y_pred_french))
+    '''
+    y_pred_english = clf.predict(X_english)
+    print("Role Specific Accuracy English")
+    analyze_role_accuracy(y_english, y_pred_english)
+    '''
+
+    # Split French data into training and testing sets
+    X_train, X_test, y_train, y_test = train_test_split(X_french, y_french, test_size=0.2, random_state=42)
+
+    # Train a Logistic Regression model
+    clf = LogisticRegression(max_iter=2000, solver="lbfgs", multi_class="multinomial")
+    clf.fit(X_train, y_train)
+
+    # Evaluate on English test data
+    y_pred = clf.predict(X_test)
+    print("Evaluation on French Test Data:")
+    print(accuracy_score(y_test, y_pred))
+
+    y_pred_english = clf.predict(X_english)
+    print("Cross-Lingual Evaluation (Train on French, Test on English):")
+    print(accuracy_score(y_english, y_pred_english))
+    '''
+    y_pred_french = clf.predict(X_french)
+    print("Role Specific Accuracy French")
+    analyze_role_accuracy(y_french, y_pred_french)
+    '''
 
 
 def main():
-    #Import sentences (and make sure each list element is its own sentence)
-    '''
-    All this is literally just to ensure each sentence within each list index maps from english to french
-    '''
-    english_sentences = load_english_sentences()
-    french_sentences = load_french_sentences()
-    parallel_english_sentences = []
-    parallel_french_sentences = []
-    for i in range(len(english_sentences)):
-        punctuations = {'.', '!', '?'}
-        if sum(1 for char in english_sentences[i] if char in punctuations) == sum(1 for char in french_sentences[i] if char in punctuations):
-            parallel_english_sentences.append(english_sentences[i])
-            parallel_french_sentences.append(french_sentences[i])
-    
-    nltk.download('punkt')
-    split_en_sentences = []
-    split_fr_sentences = []
-    for j in range(len(parallel_english_sentences)):
-        en_sentences = sent_tokenize(parallel_english_sentences[j])
-        fr_sentences = sent_tokenize(parallel_french_sentences[j])
-        if len(en_sentences) != len(fr_sentences):
-            if len(en_sentences)-1 == len(fr_sentences):
-                en_sentences.pop()
-            elif len(fr_sentences)-1 == len(en_sentences):
-                fr_sentences.pop()
-        
-        split_en_sentences.extend(en_sentences)
-        split_fr_sentences.extend(fr_sentences)
-    
-    cleaned_en_sentences = []
-    cleaned_fr_sentences = []
-    for k in range(len(split_en_sentences)):
-        new_text = decode_text(split_en_sentences[k])
-        cleaned_en_sentences.append(new_text)
-        new_text = decode_text(split_fr_sentences[k])
-        cleaned_fr_sentences.append(new_text)
-    
-    print(len(cleaned_en_sentences))
-    print(len(cleaned_fr_sentences))
+  #Map UCCA roles to word in sentences
+  file_path = "potential_corpus/corpus/passage"
+  file_end = ".xml"
+  ordered_words_and_roles_en = []
+  for i in range(36, 63):
+      fp = file_path + str(i) + file_end
+      ordered_words_and_roles_en.append(create_ordered_list(map_roles_to_terminals(fp), get_sentence_from_xml(fp)))
+  for i in range(286, 319):
+      fp = file_path + str(i) + file_end
+      ordered_words_and_roles_en.append(create_ordered_list(map_roles_to_terminals(fp), get_sentence_from_xml(fp)))
+  for i in range(814, 847):
+      fp = file_path + str(i) + file_end
+      ordered_words_and_roles_en.append(create_ordered_list(map_roles_to_terminals(fp), get_sentence_from_xml(fp)))
+  for i in range(880, 910):
+      fp = file_path + str(i) + file_end
+      ordered_words_and_roles_en.append(create_ordered_list(map_roles_to_terminals(fp), get_sentence_from_xml(fp)))
+  for i in range(968, 999):
+      fp = file_path + str(i) + file_end
+      ordered_words_and_roles_en.append(create_ordered_list(map_roles_to_terminals(fp), get_sentence_from_xml(fp)))
 
+  file_path = "potential_corpus/corpus/passage"
+  file_end = ".xml"
+  ordered_words_and_roles_fr = []
+  for i in range(77, 104):
+      ordered_words_and_roles_fr.append(create_ordered_list(map_roles_to_terminals(file_path + str(i) + file_end), get_sentence_from_xml(file_path + str(i) + file_end)))
+  for i in range(416, 449):
+      ordered_words_and_roles_fr.append(create_ordered_list(map_roles_to_terminals(file_path + str(i) + file_end), get_sentence_from_xml(file_path + str(i) + file_end)))
+  for i in range(764, 797):
+      ordered_words_and_roles_fr.append(create_ordered_list(map_roles_to_terminals(file_path + str(i) + file_end), get_sentence_from_xml(file_path + str(i) + file_end)))
+  for i in range(848, 878):
+      ordered_words_and_roles_fr.append(create_ordered_list(map_roles_to_terminals(file_path + str(i) + file_end), get_sentence_from_xml(file_path + str(i) + file_end)))
+  for i in range(911, 942):
+      ordered_words_and_roles_fr.append(create_ordered_list(map_roles_to_terminals(file_path + str(i) + file_end), get_sentence_from_xml(file_path + str(i) + file_end)))
 
-    #Sentence preprocessing
-    '''
-    Do more preprocessing or naw?
-    '''
-
-    #Generate parse trees for the sentences
-    stanza.download("en")
-    stanza.download("fr")
-    en_sentence_parse_trees, en_sentence_matrix = get_parse_tree_stanza(cleaned_en_sentences, True)
-    fr_sentence_parse_trees, fr_sentence_matrix = get_parse_tree_stanza(cleaned_fr_sentences, False)
-    #tree = visualize_stanza(en_sentence_parse_trees[0], 5)
-    #tree.pretty_print()
-    
-    #print(print(*[f'id: {word.id}\tword: {word.text}\thead id: {word.head}\thead: {sent.words[word.head-1].text if word.head > 0 else "root"}\tdeprel: {word.deprel}' for sent in en_sentence_parse_trees[0].sentences for word in sent.words], sep='\n'))
-    #print(print(*[f'id: {word.id}\tword: {word.text}\thead id: {word.head}\thead: {sent.words[word.head-1].text if word.head > 0 else "root"}\tdeprel: {word.deprel}' for sent in fr_sentence_parse_trees[0].sentences for word in sent.words], sep='\n'))
-    '''
-    with open("sentence_data.pkl", "wb") as f:
-        pickle.dump({
-            "en_sentence_parse_trees": en_sentence_parse_trees,
-            "en_sentence_matrix": en_sentence_matrix,
-            "fr_sentence_parse_trees": fr_sentence_parse_trees,
-            "fr_sentence_matrix": fr_sentence_matrix
-        }, f)
-    '''
-    #print(en_sentence_matrix[0])
-    #print(fr_sentence_matrix[0])
-    print(len(en_sentence_parse_trees))
-    print(len(fr_sentence_parse_trees))
-
-
-    #Embed sentences
-    tokenizer = AutoTokenizer.from_pretrained("bert-base-multilingual-cased")
-    model = AutoModel.from_pretrained("bert-base-multilingual-cased")
-    english_embeddings = get_embeddings(cleaned_en_sentences, tokenizer, model)
-    french_embeddings = get_embeddings(cleaned_fr_sentences, tokenizer, model)
-    print(len(english_embeddings))
-    print(len(french_embeddings))
-    '''
-    save_embeddings_to_hdf5(english_embeddings, "english_embeddings.h5")
-    save_embeddings_to_hdf5(french_embeddings, "french_embeddings.h5")
-    '''
-
-    #Split embeddings into training data, development data, and test data
-
-    #Train structural probe
-    '''
-    Find a way to compare the probe's output to the Stanza parse trees
-    '''
-
-    #Evaluate on test data
+  # Get mBERT word level embeddings for each layer
+  for i in range(1, 13):
+      analyze_embedding_layers(i, ordered_words_and_roles_en, ordered_words_and_roles_fr)
 
 
 main()
 
-
-'''
-USING THE MODEL
-1. Tokenize preprocessed sentences
-2. Extract embeddings using mBERT or XLM-R
-
-USING THE PROBE
-The probe needs embeddings as input, and corresponding syntactic properties as output/labels
-0. Split the embeddings into training, development, and test set?
-1. Get syntactic annotations like parse tree distances or depths, derived from the corpus.
-        (this might be in the xml file of the corpus, or we have to do this manually. how? idk.)
-2. Train the structural probe (the one linked in final project proposal)
-        (modify the parameters of the probe to see which one has the best result)
-3. Evaluate the probe on the test set
-        (use spearman correlation, accuracy, etc)
-4. Run the probe on both english and french embeddings
-
-EVALUATING RESULTS
-Syntactic Differences:
-1. Analyze how well embeddings from each language encode syntactic properties.
-Differences in Spearman correlation can reveal cross-linguistic syntactic variations.
-'''
+                                               
+                                    
